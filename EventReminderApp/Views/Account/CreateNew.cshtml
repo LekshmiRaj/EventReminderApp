@@ -1,0 +1,150 @@
+﻿
+@model EventReminderApp.Models.EventModel
+
+@{
+    Layout = null;
+    string dateField = ViewBag.page == "Create" ? "date" : "text";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CreateNew</title>
+
+    @*<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>*@
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
+    @*//datetime picker*@
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.js" integrity="sha256-2JRzNxMJiS0aHOJjG+liqsEOuBb6++9cY4dSOyiijX4=" crossorigin="anonymous"></script>
+
+    <link href="~/CSS/Home.css" rel="stylesheet" />
+
+    <script>
+        $(document).ready(function () {
+            $('#datetimepicker1,#datetimepicker2').datetimepicker({
+                format: 'DD/MM/YYYY HH:mm A'
+            });
+        });
+    </script>
+
+</head>
+<body>
+    <div class="header">
+        <p>Event Reminder</p>
+    </div>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        @if (Session["username"] != null)
+        {
+            <a class="navbar-brand text-success" href="#">@Session["username"].ToString()</a>
+        }
+
+        <div class="collapse navbar-collapse"></div>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("CalenderView", "Account")">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="@Url.Action("CreateNew", "Account")">Create New</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("UserHome", "Account")">Event List</a>
+                </li>
+            </ul>
+        </div>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("LoginRegForm", "Account")">Log Out</a>
+                </li>
+            </ul>
+    </nav>
+    <div class="container register-form">
+
+        <form name="studentForm" method=post>
+            <div class="form-content">
+
+                <input type="hidden" class="form-control" name="UserId" value="@Session["username"].ToString()" />
+                <div class="row form-group">
+                    <div class="col-md-3">
+                        <label></label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="hidden" class="form-control" name="EventId" value="@Model.EventId" />
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-3">
+                        <label>Event Name:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" placeholder="Event Name" name="EventName" id="EventName" value="@Model.EventName" required />
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-3">
+                        <label>Description:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <textarea class="form-control" cols="40" rows="5" placeholder="Description " name="Description" value="">@Model.Description</textarea>
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-3">
+                        <label>Start Date:</label>
+                    </div>
+                    @*<div class="col-md-9">
+                        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" name="StartDate" id="StartDate" value="@Model.StartDate" required/>
+                            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>*@
+                    <div class="col-md-9">
+                            <input type=@dateField class="form-control" placeholder="YYYY-MM-DD" name="StartDate" id="StartDate" value="@Model.StartDate" required />
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-3">
+                        <label>End Date:</label>
+                    </div>
+                    @*<div class="col-md-9">
+                        <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" name="EndDate" id="EndDate" value="@Model.EndDate" required />
+                            <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>*@
+                    <div class="col-md-9">
+                        <input type=@dateField class="form-control" placeholder="YYYY-MM-DD" name="EndDate" id="EndDate" value="@Model.EndDate" required />
+                    </div>
+                </div>
+
+                <button type="submit" class="btnSubmit" id="btnSubmit">Submit</button>
+            </div>
+        </form>
+        @Html.ActionLink("Back", "UserHome")
+    </div>
+
+    <div class="footer">
+        <p>Copyright &copy; 2020 Lekshmi</p>
+    </div>
+</body>
+</html>

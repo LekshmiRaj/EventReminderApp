@@ -1,0 +1,116 @@
+﻿@model IEnumerable<EventReminderApp.Models.EventModel>
+
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UserHome</title>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+
+    <link href="~/CSS/Home.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="header">
+        <p>Event Reminder</p>
+    </div>
+
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        @if (Session["username"] != null)
+        {
+            <a class="navbar-brand text-success" href="#">@Session["username"].ToString()</a>
+        }
+
+        <div class="collapse navbar-collapse"></div>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("CalenderView", "Account")">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("CreateNew", "Account")">Create New</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="@Url.Action("UserHome", "Account")">Event List</a>
+                </li>
+            </ul>
+        </div>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("LoginRegForm", "Account")">Log Out</a>
+                </li>
+            </ul>
+    </nav>
+    
+    <div class="container register-form">
+
+        <table class="table" id="tblStudentList">
+            <tr>
+                <th>No.</th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EventId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EventName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StartDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EndDate)
+                </th>               
+                <th></th>
+
+            </tr>
+            @{int j = 1; }
+            @foreach (var item in Model)
+            {
+
+                <tr id="@item.EventId">
+                    <td>@(j++)</td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EventId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EventName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>                    
+                    <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.EventId }) |
+                            @*@Html.ActionLink("ViewDetails", "ViewDetails", new { id = item.StudentId }) |*@
+                            @Html.ActionLink("Delete", "Delete", new { id = item.EventId })
+                        </td>
+
+                </tr>
+            }
+
+
+        </table>
+    </div>
+
+    <div class="footer">
+        <p>Copyright &copy; 2020 Lekshmi Raj M R</p>
+    </div>
+</body>
+</html>
