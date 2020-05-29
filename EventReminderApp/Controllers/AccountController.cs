@@ -20,7 +20,7 @@ namespace EventReminderApp.Controllers
             return View();
         }
 
-        public ActionResult test()
+        public ActionResult test()//test
         {
             return View();
         }
